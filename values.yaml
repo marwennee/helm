@@ -20,7 +20,7 @@ back_one:
 
   image:
       repository: marwenguesmii/nodejsapp
-      tag: "2.0"
+      tag: "latest"
       pullPolicy: Always
 
   spec:
@@ -96,7 +96,7 @@ back_two:
 
   image:
       repository: marwenguesmii/nodejsapp-2
-      tag: "14a50d7"
+      tag: "latest"
       pullPolicy: Always
 
   spec:
@@ -169,7 +169,7 @@ front:
     API_URL_1: http://elyadata-devops-back-1.com/api/tutorials
   image:
       repository: marwenguesmii/angular_nginx
-      tag: "2.0"
+      tag: "latest"
       pullPolicy: Always
 
   spec:
