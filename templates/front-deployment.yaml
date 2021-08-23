@@ -1,0 +1,40 @@
+{{- $configmap := print .Values.front.metadata.name "-config" -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.front.metadata.name }}
+  namespace: {{ .Values.front.metadata.namespace }}
+  labels:
+    app: {{ .Values.front.metadata.name }}
+spec:
+  replicas: {{ .Values.front.spec.replicasCout }}
+{{- if .Values.front.spec.strategy }}
+  strategy:
+{{ toYaml .Values.front.spec.strategy | indent 4 }}
+{{- end}}
+  selector:
+    matchLabels:
+      app: {{ .Values.front.metadata.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.front.metadata.name }}
+    spec:
+      containers:
+      - name: {{ .Values.front.metadata.name }}
+        image: {{ .Values.front.image.repository }}:{{ .Values.front.image.tag }}
+        imagePullPolicy: {{ .Values.front.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.front.service.port }}
+{{- if .Values.front.spec.containers.resources }}
+        resources:
+{{ toYaml .Values.front.spec.containers.resources | indent 10 }}
+{{- end}}
+        env:
+{{-  range $configmapKey, $configmapValue := .Values.front.configmapData }}
+          - name: {{ $configmapKey }}
+            valueFrom:
+              configMapKeyRef:
+                name: {{$configmap}}
+                key: {{ $configmapKey }}
+{{- end}}

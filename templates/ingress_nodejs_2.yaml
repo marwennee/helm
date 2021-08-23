@@ -1,0 +1,17 @@
+{{- if .Values.back_two.ingress.enabled -}}
+{{- $serviceName := .Values.back_two.service.name -}}
+{{- $port := .Values.back_two.service.port -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.back_two.ingress.name }}
+  namespace: {{ .Values.back_two.metadata.namespace }}
+  labels:
+    name: {{ .Values.back_two.ingress.name }}
+spec:
+{{ if .Values.back_two.ingress.rules }}
+  rules:
+{{ toYaml .Values.back_two.ingress.rules | indent 4 }} 
+{{ end}}
+
+{{- end}}

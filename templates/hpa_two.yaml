@@ -1,0 +1,21 @@
+{{- if .Values.back_two.autoscaling.enabled -}}
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Values.back_two.metadata.name }}
+  namespace: {{ .Values.back_two.metadata.namespace }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Values.back_two.metadata.name }}
+  minReplicas: {{ .Values.back_two.autoscaling.minReplicas}}
+  maxReplicas: {{ .Values.back_two.autoscaling.maxReplicas}}
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: {{ .Values.back_two.autoscaling.targetCPUUtilizationPercentage}}
+{{- end}}

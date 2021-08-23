@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.front.metadata.name }}-config
+  namespace: {{ .Values.front.metadata.namespace }}
+{{- if .Values.front.configmapData }}
+data:
+{{-  range $configmapKey, $configmapValue := .Values.front.configmapData }}
+  {{ $configmapKey }}: {{ toYaml $configmapValue | quote }}
+{{- end }}
+{{- end }}

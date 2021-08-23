@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.back_two.metadata.name }}-config
+  namespace: {{ .Values.back_two.metadata.namespace }}
+{{- if .Values.back_two.configmapData }}
+data:
+{{-  range $configmapKey, $configmapValue := .Values.back_two.configmapData }}
+  {{ $configmapKey }}: {{ toYaml $configmapValue | quote }}
+{{- end }}
+{{- end }}
+
