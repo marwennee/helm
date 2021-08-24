@@ -125,9 +125,6 @@ back_two:
         initialDelaySeconds: 15
         periodSeconds: 30
 
-
-
-
   ingress:
     enabled: true
     name: nodejs-ingress-v2
@@ -207,6 +204,28 @@ front:
     minReplicas: 1
     maxReplicas: 100
     targetCPUUtilizationPercentage: 80
+
+
+mongo:
+  metadata:
+    name: mongo-deployment
+    namespace: testing
+  
+  service:
+    name: mongo
+    port: 27017
+    targetPort: 27017
+    clusterIP: None
+
+  image:
+    repository: mongo
+    tag: "5.0"
+    pullPolicy: Always
+
+  volume:
+    mountPath: /data/db
+    name: pv-storage
+    ClaimName: mongo-claim
 
 
 

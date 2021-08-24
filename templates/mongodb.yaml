@@ -1,47 +1,47 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongo
-  namespace: testing
+  name: {{ .Values.mongo.service.name }}
+  namespace: {{ .Values.mongo.metadata.namespace }}
 spec:
   selector:
-    app: mongo-deployment
+    app: {{ .Values.mongo.metadata.name }}
   ports:
-  - port: 27017
-    targetPort: 27017
-  clusterIP: None
+  - port: {{ .Values.mongo.service.port }}
+    targetPort: {{ .Values.mongo.service.targetPort }}
+  clusterIP: {{ .Values.mongo.service.clusterIP }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongo-deployment
-  namespace: testing
+  name: {{ .Values.mongo.metadata.name }}
+  namespace: {{ .Values.mongo.metadata.namespace }}
 spec:
-  serviceName: mongo
+  serviceName: {{ .Values.mongo.service.name }}
   selector:
     matchLabels:
-      app: mongo-deployment
+      app: {{ .Values.mongo.metadata.name }}
   template:
     metadata:
       labels:
-        app: mongo-deployment
+        app: {{ .Values.mongo.metadata.name }}
     spec:
       containers:
       - name: mongo-deployment
-        image: mongo:5.0
-        imagePullPolicy: IfNotPresent
+        image: {{ .Values.mongo.image.repository }}:{{ .Values.mongo.image.tag }}
+        imagePullPolicy: {{ .Values.mongo.image.pullPolicy }}
         resources:
           limits:
             memory: "128Mi"
             cpu: "300m"
         ports:
-        - containerPort: 27017
+        - containerPort: {{ .Values.mongo.service.port }}
         volumeMounts:
-        - mountPath: /data/db
-          name: pv-storage
+        - mountPath: {{ .Values.mongo.volume.mountPath }}
+          name: {{ .Values.mongo.volume.name }}
       volumes:
-        - name: pv-storage
+        - name: {{ .Values.mongo.volume.name }}
           persistentVolumeClaim:
-            claimName: pv-claim
+            claimName: {{ .Values.mongo.volume.mongo-claim }}
         
 

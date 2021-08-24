@@ -1,12 +1,14 @@
-apiVersion: v1
 kind: PersistentVolumeClaim
+apiVersion: v1
 metadata:
-  name: pv-claim
+  name: mongo-claim
   namespace: testing
+  annotations:
+    volume.beta.kubernetes.io/storage-class: azure-disk
 spec:
+  storageClassName: default
   accessModes:
     - ReadWriteOnce
-  storageClassName: "standard"
   resources:
     requests:
-      storage: 100Mi
+      storage: 3Gi
