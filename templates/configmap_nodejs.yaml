@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-config
+  name: {{ .Values.back_one.metadata.name }}-config
   namespace: {{ .Values.back_one.metadata.namespace }}
 {{- if .Values.back_one.configmapData }}
 data:

@@ -57,8 +57,12 @@ back_one:
     name: nodejs-ingress
     className: ""
     annotations: {}
+    tls:
+    - hosts:
+      - backone.seekmake.com 
+      secretName: backone-cer
     rules:
-      - host: elyadata-devops-back.com
+      - host: backone.seekmake.com
         http:
           paths:
             - pathType: Prefix
@@ -130,8 +134,12 @@ back_two:
     name: nodejs-ingress-v2
     className: ""
     annotations: {}
+    tls:
+    - hosts:
+      - back.seekmake.com 
+      secretName: backtwo-cer
     rules:
-      - host: elyadata-devops-back-1.com
+      - host: back.seekmake.com
         http:
           paths:
             - pathType: Prefix
@@ -162,8 +170,8 @@ front:
     protocol: TCP
 
   configmapData:
-    API_URL: http://elyadata-devops-back.com/api/tutorials
-    API_URL_1: http://elyadata-devops-back-1.com/api/tutorials
+    API_URL: https://backone.seekmake.com/api/tutorials
+    API_URL_1: https://back.seekmake.com/api/tutorials
   image:
       repository: marwenguesmii/angular_nginx
       tag: "latest"
@@ -188,8 +196,12 @@ front:
     name: angular-ingress
     className: ""
     annotations: {}
+    tls:
+    - hosts:
+      - test.seekmake.com 
+      secretName: front-cer
     rules:
-      - host: elyadata-devops.com
+      - host: test.seekmake.com
         http:
           paths:
             - pathType: Prefix

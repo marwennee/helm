@@ -6,12 +6,18 @@ kind: Ingress
 metadata:
   name: {{ .Values.back_two.ingress.name }}
   namespace: {{ .Values.back_two.metadata.namespace }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt
   labels:
     name: {{ .Values.back_two.ingress.name }}
 spec:
+{{ if .Values.back_two.ingress.tls }}
+  tls:
+{{ toYaml .Values.back_two.ingress.tls | indent 4 }} 
+{{ end}}
 {{ if .Values.back_two.ingress.rules }}
   rules:
 {{ toYaml .Values.back_two.ingress.rules | indent 4 }} 
 {{ end}}
-
 {{- end}}

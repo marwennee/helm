@@ -42,6 +42,6 @@ spec:
       volumes:
         - name: {{ .Values.mongo.volume.name }}
           persistentVolumeClaim:
-            claimName: {{ .Values.mongo.volume.mongo-claim }}
+            claimName: {{ .Values.mongo.volume.ClaimName }}
         
 

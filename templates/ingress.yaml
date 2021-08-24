@@ -6,9 +6,16 @@ kind: Ingress
 metadata:
   name: {{ .Values.front.ingress.name }}
   namespace: {{ .Values.front.metadata.namespace }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt
   labels:
     name: {{ .Values.front.ingress.name }}
 spec:
+{{ if .Values.front.ingress.tls }}
+  tls:
+{{ toYaml .Values.front.ingress.tls | indent 4 }} 
+{{ end}}
 {{ if .Values.front.ingress.rules }}
   rules:
 {{ toYaml .Values.front.ingress.rules | indent 4 }} 
