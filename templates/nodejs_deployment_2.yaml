@@ -1,4 +1,4 @@
-{{- $configmap := print .Release.Name "-config" -}}
+{{- $configmap := print .Values.back_two.metadata.name "-config" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
